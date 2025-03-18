@@ -10,14 +10,6 @@
 - [使用技術](#使用技術)
 - [作者](#作者)
 
-## インストール手順
-1. リポジトリをクローン
-   ```sh
-   git clone https://github.com/ryu-dra/WarikanApp.git
-   cd WarikanApp
-2.Android Studio で開く
-3.Run ボタンでアプリを実行
-
 ## 主な機能
 ユーザー情報の登録・編集
 立て替え情報の登録
