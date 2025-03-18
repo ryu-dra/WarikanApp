@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -57,22 +58,30 @@ fun UserFormScreen(navController: NavController, viewModel: UserViewModel) {
             )
         }
 
+        Spacer(modifier = Modifier.height(16.dp))
+
+
 
         LazyColumn {
             items(users) { user ->
                 Text(
                     text = user.name,
                     modifier = Modifier.clickable{
-                        if(selectedUser==null){
-                            selectedUser = user
-                        }else if(selectedUser!!.name==user.name){
-                            selectedUser = null
-                        }else{
-                            selectedUser = user
-                        }
+                        selectedUser = user
                     }.padding(8.dp)
                 )
             }
+        }
+
+        if (selectedUser != null) {
+            EditUserDialog(
+                user = selectedUser!!,
+                onDismiss = { selectedUser = null },
+                onConfirm = {
+                    viewModel.updateUser(selectedUser!!.copy(name = it))
+                    selectedUser = null // ✅ ポップアップを閉じる
+                }
+            )
         }
 
         if (showWarning) { // 警告文を表示
@@ -117,4 +126,35 @@ fun UserFormScreen(navController: NavController, viewModel: UserViewModel) {
             Text("保存")
         }
     }
+}
+
+@Composable
+fun EditUserDialog(
+    user: User,
+    onDismiss: () -> Unit,
+    onConfirm: (String) -> Unit
+) {
+    var newName by remember { mutableStateOf(user.name) }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("名前を編集") },
+        text = {
+            OutlinedTextField(
+                value = newName,
+                onValueChange = { newName = it },
+                singleLine = true
+            )
+        },
+        confirmButton = {
+            Button(onClick = { onConfirm(newName) }) {
+                Text("保存")
+            }
+        },
+        dismissButton = {
+            Button(onClick = onDismiss) {
+                Text("キャンセル")
+            }
+        }
+    )
 }

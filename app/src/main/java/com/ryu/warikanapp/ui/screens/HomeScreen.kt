@@ -56,7 +56,7 @@ fun HomeScreen(navController: NavController, userViewModel: UserViewModel, adPay
                             .border(1.dp, Color.Gray)
                         ) {
                             Text(text = adPay.name, fontWeight = FontWeight.Bold)
-                            Text(text = adPay.from+"->"+adPay.to.joinToString(","))
+                            Text(text = adPay.from+"\n->"+adPay.to.joinToString("\n  "))
                             Text(text = adPay.price.toString()+"円")
                         }
                     }
