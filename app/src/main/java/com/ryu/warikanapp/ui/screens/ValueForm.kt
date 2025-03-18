@@ -12,6 +12,7 @@ import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.*
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.navigation.NavController
 import com.ryu.warikanapp.data.model.AdPay
@@ -63,7 +64,10 @@ fun ValueFormScreen(navController: NavController, adPayViewModel: AdPayViewModel
             value = name?:"",
             onValueChange = { name = it },
             label = { Text("立て替えたものを入力") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done
+            )
         )
 
         DropdownMenuOfFrom (users){ from = it }
@@ -82,10 +86,13 @@ fun ValueFormScreen(navController: NavController, adPayViewModel: AdPayViewModel
 
         OutlinedTextField(
             value = value?:"",
-            onValueChange = { value = it },
+            onValueChange = { newText -> value = newText.filter{ it.isDigit() } },
             label = { Text("金額を入力") },
             modifier = Modifier.fillMaxWidth(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done
+            )
         )
 
         Spacer(modifier = Modifier.height(16.dp))
