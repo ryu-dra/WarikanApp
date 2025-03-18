@@ -2,10 +2,12 @@ package com.ryu.warikanapp.data.model
 
 import androidx.room.*
 
-@Entity(tableName = "user")
-data class User(
+@Entity(tableName = "ad_pay")
+data class AdPay(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val name: String,
-    var rest: Int
+    val from: String,
+    val to: List<String>,
+    val price: Int
 
 )
